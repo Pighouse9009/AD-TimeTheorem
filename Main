@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+    table {
+        table-layout: fixed;
+        text-align: center;
+        width: 100%;
+    }
+</style>
+
+<table align="center">
+    <tr>
+        <td colspan="5" style="font-size:xx-large" height="100">Quarks:</td>
+    </tr>
+    <tr>
+        <td>Current power:</td>
+        <td>Time taken to quantum:</td>
+        <td>Quarks gained on quantum:</td>
+        <td>Current quarks:</td>
+        <td>Amount wanted:</td>
+    </tr>
+    <tr>
+        <td><input type="text" id="1"></td>
+        <td><input type="text" id="2"></td>
+        <td><input type="text" id="3"></td>
+        <td><input type="text" id="4"></td>
+        <td><input type="text" id="5"></td>
+    </tr>
+    <tr height="100">
+        <td colspan="5"><button onclick="Generate()">Generate</button></td>
+    </tr>
+</table>
+<table align="center">
+    <tr>
+        <td id="timetext1"></td>
+        <td id="timetext2"></td>
+    </tr>
+    <tr>
+        <td id="timer1">0:00:00:00:000</td>
+        <td id="timer2">0:00:00:00:000</td>
+    </tr>
+</table>
+<table align="center">
+    <tr>
+        <td colspan="3" style="font-size:xx-large" height="100">Time Theorems:</td>
+    </tr>
+    <tr>
+        <td>Current Time Theorems:</td>
+        <td>Current Time Theorem Generation:</td>
+        <td>Time Theorems Wanted:</td>
+    </tr>
+    <tr>
+        <td><input type="text" id="6"></td>
+        <td><input type="text" id="7"></td>
+        <td><input type="text" id="8"></td>
+    </tr>
+    <tr height="100">
+        <td colspan="3"><button onclick="Generate2()">Generate</button></td>
+    </tr>
+    <tr>
+        <td id="timetext3" colspan="3"></td>
+    </tr>
+    <tr>
+        <td id="timer3" colspan="3">0:00:00:00:000</td>
+    </tr>
+</table>
+
+<script>
+    document.getElementById('timetext1').innerHTML = "Time until 0 power without adding quarks:"
+    document.getElementById('timetext2').innerHTML = "Time until 0 power with adding quarks:"
+    document.getElementById('timetext3').innerHTML = "Time until 0 time theorems:"
+    function Generate() {
+        var value = []
+        for (i = 1; i <= 5; i++) {
+            value[i-1] = +document.getElementById(i).value
+        }
+        document.getElementById('timetext1').innerHTML = "Time until " + value[4] + " power without adding quarks:"
+        document.getElementById('timer1').innerHTML = maketimer((value[4]-value[0])/value[3])
+        document.getElementById('timetext2').innerHTML = "Time until " + value[4] + " power with adding quarks:"
+        var thingy = value[4]-value[0]-value[3]*value[1]
+        var thingtime = value[1]
+        while (thingy > 0) {
+            thingy -= (value[3]+value[2])*value[1]
+            value[3] += value[2]
+            thingtime += value[1]
+        }
+        document.getElementById('timer2').innerHTML = maketimer(thingtime)
+    }
+    function Generate2(){
+        var value = []
+        for (i = 6; i <= 8; i++) {
+            value[i-6] = +document.getElementById(i).value
+        }
+        document.getElementById('timetext3').innerHTML = "Time until " + value[2] + " time theorems:"
+        document.getElementById('timer3').innerHTML = maketimer((value[2]-value[0])/value[1])
+    }
+    function maketimer(time) {
+        var thetime = "";
+        var times = [Math.floor(time / 86400), Math.floor((time / 86400 - Math.floor(time / 86400)) * 24), Math.floor((time / 3600 - Math.floor(time / 3600)) * 60), Math.floor((time / 60 - Math.floor(time / 60)) * 60), Math.floor((time - Math.floor(time)))]
+        for (i = 0; i < 5; i++) {
+            if (i == 4) { if (times[i] < 100) { thetime += "0" } }
+            if (i > 0 && times[i] < 10) { thetime += "0" }
+            thetime += times[i];
+            if (i < 4) { thetime += ":" }
+        }
+        return thetime
+    }
+</script>
+
+</body>
+
+</html>
